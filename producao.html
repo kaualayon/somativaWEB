@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produção - SENAI Materiais</title>
+  <link rel="icon" href="img/senaiicone.png" type="image/x-icon" sizes="128x128">
+  <link rel="shortcut icon" href="img/senaiicone.png" type="image/x-icon" sizes="128x128">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Estilos personalizados */
+    /* Adicione estilos adicionais conforme necessário */
+    body {
+      padding-top: 60px; /* Para compensar a altura da barra de navegação */
+      overflow-x: hidden; /* Impede a rolagem horizontal */
+      background-color: #f5f5f5; /* Fundo cinza claro */
+      color: #333; /* Texto escuro */
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #f8f9fa; /* Cor de fundo do rodapé */
+      color: #555; /* Texto cinza */
+      padding: 10px 0;
+    }
+
+    .container {
+      padding: 20px;
+      background-color: #fff; /* Fundo branco */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    }
+
+    canvas {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .table {
+      width: 100%;
+      margin-bottom: 20px;
+      color: #333; /* Texto escuro */
+      background-color: #fff; /* Fundo branco */
+    }
+
+    .thead-dark th {
+      color: #fff; /* Texto branco */
+      background-color: #007bff; /* Cor de destaque do cabeçalho da tabela */
+    }
+
+    .navbar {
+      background-color: #007bff; /* Cor de fundo da barra de navegação */
+      color: #fff; /* Texto branco */
+    }
+  </style>
+</head>
+<body>
+   <!-- Barra de navegação -->
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="header">
+        <a class="navbar-brand" href="https://sp.senai.br/unidade/campinas/"><img src="img/SENAI.png" alt="Logo da Empresa" style="max-height: 40px;"></a>
+        <h1 class="navbar-brand mb-0">Produção</h1>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="index.html">Painel principal</a>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="inventario.html">Inventário</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Conteúdo principal -->
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- Gráfico diário de linhas de produção -->
+        <canvas id="dailyProductionChart"></canvas>
+      </div>
+    </div>
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <!-- Gráfico de Barras de Comparação de Eficiência -->
+        <canvas id="efficiencyComparisonChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">&copy;SENAI Materiais - Rua X, Campinas-SP, Telefone: (+55) 19-99999-9999. Todos os direitos reservados.</span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Código JavaScript para criar gráficos
+    // Adicione os dados do gráfico conforme necessário
+    var dailyProductionData = {
+    labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
+    datasets: [{
+      label: 'Lápis',
+      data: [120, 100, 110, 130],
+      backgroundColor: 'rgba(0, 123, 255, 0.2)', // Azul claro suave
+      borderColor: 'rgba(0, 123, 255, 1)', // Azul claro suave
+      borderWidth: 1
+    },
+    {
+      label: 'Caderno',
+      data: [90, 120, 100, 110],
+      backgroundColor: 'rgba(255, 99, 132, 0.2)', // Vermelho claro suave
+      borderColor: 'rgba(255, 99, 132, 1)', // Vermelho claro suave
+      borderWidth: 1
+    },
+    {
+      label: 'Caneta',
+      data: [100, 80, 90, 85],
+      backgroundColor: 'rgba(255, 205, 86, 0.2)', // Amarelo claro suave
+      borderColor: 'rgba(255, 205, 86, 1)', // Amarelo claro suave
+      borderWidth: 1
+    },
+    {
+      label: 'Lápis de Cor',
+      data: [80, 70, 75, 85],
+      backgroundColor: 'rgba(75, 192, 192, 0.2)', // Verde claro suave
+      borderColor: 'rgba(75, 192, 192, 1)', // Verde claro suave
+      borderWidth: 1
+    },
+    {
+      label: 'Régua',
+      data: [70, 60, 65, 75],
+      backgroundColor: 'rgba(153, 102, 255, 0.2)', // Roxo claro suave
+      borderColor: 'rgba(153, 102, 255, 1)', // Roxo claro suave
+      borderWidth: 1
+    },
+    {
+      label: 'Estojo',
+      data: [85, 90, 80, 95],
+      backgroundColor: 'rgba(255, 159, 64, 0.2)', // Laranja claro suave
+      borderColor: 'rgba(255, 159, 64, 1)', // Laranja claro suave
+      borderWidth: 1
+    },
+    {
+      label: 'Marca-texto',
+      data: [45, 30, 40, 50],
+      backgroundColor: 'rgba(255, 0, 255, 0.2)', // Rosa claro suave
+      borderColor: 'rgba(255, 0, 255, 1)', // Rosa claro suave
+      borderWidth: 1
+    },
+    {
+      label: 'Tesoura',
+      data: [50, 40, 45, 55],
+      backgroundColor: 'rgba(255, 99, 71, 0.2)', // Vermelho claro suave
+      borderColor: 'rgba(255, 99, 71, 1)', // Vermelho claro suave
+      borderWidth: 1
+    },
+    {
+      label: 'Livro',
+      data: [70, 80, 75, 90],
+      backgroundColor: 'rgba(255, 206, 86, 0.2)', // Amarelo claro suave
+      borderColor: 'rgba(255, 206, 86, 1)', // Amarelo claro suave
+      borderWidth: 1
+    },
+    {
+      label: 'Bolsa',
+      data: [60, 50, 55, 65],
+      backgroundColor: 'rgba(255, 159, 64, 0.2)', // Laranja claro suave
+      borderColor: 'rgba(255, 159, 64, 1)', // Laranja claro suave
+      borderWidth: 1
+    },
+    {
+      label: 'Compasso',
+      data: [30, 40, 35, 45],
+      backgroundColor: 'rgba(153, 102, 255, 0.2)', // Roxo claro suave
+      borderColor: 'rgba(153, 102, 255, 1)', // Roxo claro suave
+      borderWidth: 1
+    }]
+  };
+
+  var dailyProductionCtx = document.getElementById('dailyProductionChart').getContext('2d');
+  var dailyProductionChart = new Chart(dailyProductionCtx, {
+    type: 'line', // Alterado para 'line' para um gráfico de linhas
+    data: dailyProductionData,
+    options: {
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  });
+
+  var efficiencyComparisonData = {
+  labels: ['Lápis', 'Caderno', 'Caneta', 'Lápis de Cor', 'Régua', 'Estojo', 'Marca-texto', 'Tesoura', 'Livro', 'Bolsa', 'Compasso'],
+  datasets: [{
+    label: 'Eficiência',
+    data: [80, 75, 85, 70, 65, 75, 60, 65, 80, 70, 50],
+    backgroundColor: [
+      'rgba(0, 123, 255, 0.2)', // Azul claro suave para Lápis
+      'rgba(255, 99, 132, 0.2)', // Vermelho claro suave para Caderno
+      'rgba(255, 205, 86, 0.2)', // Amarelo claro suave para Caneta
+      'rgba(75, 192, 192, 0.2)', // Verde claro suave para Lápis de Cor
+      'rgba(153, 102, 255, 0.2)', // Roxo claro suave para Régua
+      'rgba(255, 159, 64, 0.2)', // Laranja claro suave para Estojo
+      'rgba(255, 0, 255, 0.2)', // Rosa claro suave para Marca-texto
+      'rgba(255, 99, 71, 0.2)', // Vermelho claro suave para Tesoura
+      'rgba(255, 206, 86, 0.2)', // Amarelo claro suave para Livro
+      'rgba(255, 159, 64, 0.2)', // Laranja claro suave para Bolsa
+      'rgba(153, 102, 255, 0.2)' // Roxo claro suave para Compasso
+    ],
+    borderColor: [
+      'rgba(0, 123, 255, 1)', // Azul claro para Lápis
+      'rgba(255, 99, 132, 1)', // Vermelho claro para Caderno
+      'rgba(255, 205, 86, 1)', // Amarelo claro para Caneta
+      'rgba(75, 192, 192, 1)', // Verde claro para Lápis de Cor
+      'rgba(153, 102, 255, 1)', // Roxo claro para Régua
+      'rgba(255, 159, 64, 1)', // Laranja claro para Estojo
+      'rgba(255, 0, 255, 1)', // Rosa claro para Marca-texto
+      'rgba(255, 99, 71, 1)', // Vermelho claro para Tesoura
+      'rgba(255, 206, 86, 1)', // Amarelo claro para Livro
+      'rgba(255, 159, 64, 1)', // Laranja claro para Bolsa
+      'rgba(153, 102, 255, 1)' // Roxo claro para Compasso
+    ],
+    borderWidth: 1
+  }]
+};
+
+var efficiencyComparisonCtx = document.getElementById('efficiencyComparisonChart').getContext('2d');
+var efficiencyComparisonChart = new Chart(efficiencyComparisonCtx, {
+  type: 'bar', // Alterado para 'bar' para um gráfico de barras
+  data: efficiencyComparisonData,
+  options: {
+    responsive: true,
+    maintainAspectRatio: false
+  }
+});
+  </script>
+</body>
+</html>
